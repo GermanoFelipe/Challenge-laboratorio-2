@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchTeams } from '../services/apiService';
 
 interface Team {
-    id: number;
+    _id: string;
     name: string;
 }
 
@@ -19,6 +20,7 @@ const Home: React.FC = () => {
                 setError(null);
             } catch (error) {
                 console.error('Error fetching teams:', error);
+                setError('Error fetching teams');
             }
         };
 
@@ -30,8 +32,10 @@ const Home: React.FC = () => {
             <h1>Euro 2024 Teams</h1>
             {error && <p>{error}</p>}
             <ul>
-                {teams.map(team => (
-                    <li key={team.id}>{team.name}</li>
+                {teams.map((team) => (
+                    <li key={team._id}>
+                        <Link to={`/team/${team._id}`}>{team.name}</Link>
+                    </li>
                 ))}
             </ul>
         </div>
