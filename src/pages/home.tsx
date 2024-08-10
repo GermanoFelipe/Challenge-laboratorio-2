@@ -1,38 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPlayers } from '../services/apiService';
+import { fetchTeams } from '../services/apiService';
 
-interface Player {
+interface Team {
     id: number;
     name: string;
-    position: string;
 }
 
 const Home: React.FC = () => {
-    const [players, setPlayers] = useState<Player[]>([]);
+    const [teams, setTeams] = useState<Team[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const loadPlayers = async () => {
+        const loadTeams = async () => {
             try {
-                const data = await fetchPlayers();
-                setPlayers(data);
+                const data = await fetchTeams();
+                console.log('Teams data:', data);
+                setTeams(data);
                 setError(null);
             } catch (error) {
-                console.error('Error fetching players:', error);
-                setError('Error fetching players');
+                console.error('Error fetching teams:', error);
             }
         };
 
-        loadPlayers();
+        loadTeams();
     }, []);
 
     return (
         <div>
-            <h1>Premier League Players</h1>
+            <h1>Euro 2024 Teams</h1>
             {error && <p>{error}</p>}
             <ul>
-                {players.map(player => (
-                    <li key={player.id}>{player.name} - {player.position}</li>
+                {teams.map(team => (
+                    <li key={team.id}>{team.name}</li>
                 ))}
             </ul>
         </div>
