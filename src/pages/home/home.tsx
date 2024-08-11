@@ -73,8 +73,8 @@ const Home: React.FC = () => {
 
     return (
         <div className="app-container">
+            <h1 className="title">Rick and Morty Characters</h1>
             <div className="content-container">
-                <h1>Rick and Morty Characters</h1>
                 {error && <p>{error}</p>}
                 <div
                     ref={containerRef}

@@ -1,38 +1,42 @@
+@font-face {
+    font-family: 'Get Schwifty';
+    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3089507/get-schwifty.woff') format('woff');
+}
+
 body {
+    background-color: black;
+    font-size: 0.9vw;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
 }
 
 .app-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100vh;
     padding: 20px;
+    box-sizing: border-box;
+    background-color: black;
 }
 
-
-/*.content-container {
-    width: 90%;
-    max-width: 1200px;
-    text-align: center;
-    margin: 0 auto;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.content-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
 }
-*/
 
 .scroll-container {
     width: 100%;
+    max-width: 1200px;
     height: 80vh;
     overflow-y: auto;
     border-top: 1px solid #ccc;
     padding: 10px;
     box-sizing: border-box;
+    background-color: #FFF765;
 }
 
 .character-list {
@@ -50,7 +54,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #007BFF;
+    background-color: #08BAE3;
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -59,5 +63,20 @@ body {
 }
 
 .character-button:hover {
-    background-color: #0056b3;
+    background-color: darkgrey;
+}
+
+.title {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-family: 'Get Schwifty';
+    font-size: 9em;
+    color: #08BAE3;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.title span {
+    font-size: 0.5em;
 }
