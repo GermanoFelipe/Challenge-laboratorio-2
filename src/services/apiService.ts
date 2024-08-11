@@ -1,35 +1,46 @@
-const API_HOST = 'euro-20242.p.rapidapi.com';
-const API_KEY = '4a6a34ad94msh3fedc546dc8e251p1e9559jsna20c719aec5c';
+import {getCharacter, getCharacters} from "rickmortyapi";
 
-interface Team {
-    _id: string;
+export interface Location {
     name: string;
+    url: string;
 }
 
-export const fetchTeams = async (): Promise<Team[]> => {
-    const url = `https://${API_HOST}/teams`;
+export interface Character {
+    id: number;
+    name: string;
+    status: string;
+    species: string;
+    type: string;
+    gender: string;
+    origin: Location;
+    location: Location;
+    image: string;
+}
 
-    const headers = {
-        'x-rapidapi-key': API_KEY,
-        'x-rapidapi-host': API_HOST,
-        'Content-Type': 'application/json',
-    };
-
+export const fetchCharacterById = async (id: number): Promise<Character> => {
     try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers,
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
+        const response = await getCharacter(id);
+        if (response.status === 200 && response.data) {
+            return response.data;
+        } else {
+            throw new Error(`Failed to fetch character with ID: ${id}`);
         }
-
-        const data: Team[] = await response.json();
-        return data;
     } catch (error) {
-        console.error('Error fetching teams:', error);
+        console.error('Error fetching character by ID:', error);
+        throw error;
+    }
+};
+
+export const fetchCharacters = async (page: number = 1): Promise<Character[]> => {
+    try {
+        const response = await getCharacters({ page });
+        if (response.status === 200 && response.data.results) {
+            return response.data.results;
+        } else {
+            throw new Error('Failed to fetch characters');
+        }
+    } catch (error) {
+        console.error('Error fetching characters:', error);
         throw error;
     }
 };
