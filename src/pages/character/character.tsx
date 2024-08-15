@@ -1,28 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCharacterById } from '../../services/apiService.ts';
-
-interface Location {
-    name: string;
-    url: string;
-}
-
-interface Character {
-    id: number;
-    name: string;
-    status: string;
-    species: string;
-    type: string;
-    gender: string;
-    origin: Location;
-    location: Location;
-    episode: string[];
-    image: string;
-}
+import { CharacterType } from '../../types.ts';
 
 const Character: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [character, setCharacter] = useState<Character | null>(null);
+    const [character, setCharacter] = useState<CharacterType | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {

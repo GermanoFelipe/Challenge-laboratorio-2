@@ -3,12 +3,23 @@
     src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3089507/get-schwifty.woff') format('woff');
 }
 
+.header {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-family: 'Get Schwifty';
+    font-size: 7em;
+    color: #08BAE3;
+    margin-bottom: 20px;
+}
+
+/*
 body {
-    background-color: black;
     font-size: 0.9vw;
     margin: 0;
     padding: 0;
 }
+*/
 
 .app-container {
     display: flex;
@@ -73,7 +84,6 @@ body {
     font-family: 'Get Schwifty';
     font-size: 9em;
     color: #08BAE3;
-    -webkit-text-stroke: 1px rgba(0,0,0,0.5);
     margin-bottom: 20px;
 }
 
@@ -88,3 +98,51 @@ body {
     padding: 20px;
     flex-direction: column;
 }
+.btn {
+    position: relative;
+    font-size: 17px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1em 2.5em;
+    display: inline-block;
+    border-radius: 6em;
+    transition: all .2s;
+    border: none;
+    font-family: inherit;
+    font-weight: 500;
+    color: black;
+    background-color: #97ce4c;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn::after {
+    background-color: #fff;
+}
+
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+

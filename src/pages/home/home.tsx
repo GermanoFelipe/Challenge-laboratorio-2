@@ -1,41 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getCharacters } from 'rickmortyapi';
-
-interface Location {
-    name: string;
-    url: string;
-}
-
-interface Character {
-    id: number;
-    name: string;
-    status: string;
-    species: string;
-    type: string;
-    gender: string;
-    origin: Location;
-    location: Location;
-    episode: string[];
-    image: string;
-}
-
-interface APICharacterResponse {
-    id: number;
-    name: string;
-    status: string;
-    species: string;
-    type: string;
-    gender: string;
-    origin: Location;
-    location: Location;
-    episode: string[];
-    image: string;
-}
+import './home.css'
+import {APICharacterResponse, CharacterType} from "../../types.ts";
 
 
 const Home: React.FC = () => {
-    const [characters, setCharacters] = useState<Character[]>([]);
+    const [characters, setCharacters] = useState<CharacterType[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
@@ -46,7 +17,7 @@ const Home: React.FC = () => {
             const response = await getCharacters({ page });
 
             if (response.status === 200 && response.data.results) {
-                const newCharacters = response.data.results.map((character: APICharacterResponse): Character => ({
+                const newCharacters = response.data.results.map((character: APICharacterResponse): CharacterType => ({
                     id: character.id,
                     name: character.name,
                     status: character.status,
@@ -90,14 +61,14 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <h1>Rick and Morty Characters</h1>
+            <h1 className="header">RICK AND MORTY CHARACTERS</h1>
             <div>
                 {error && <p>{error}</p>}
                 <ul>
                     {characters.map((character) => (
                         <li key={character.id}>
                             <Link to={`/character/${character.id}`}>
-                                <button>{character.name}</button>
+                                <button className="btn">{character.name}</button>
                             </Link>
                         </li>
                     ))}
