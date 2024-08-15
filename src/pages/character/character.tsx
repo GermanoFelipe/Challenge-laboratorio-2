@@ -16,6 +16,7 @@ interface Character {
     gender: string;
     origin: Location;
     location: Location;
+    episode: string[];
     image: string;
 }
 
@@ -41,6 +42,11 @@ const Character: React.FC = () => {
         loadCharacter();
     }, [id]);
 
+    const extractEpisodeNumber = (url: string): string => {
+        const parts = url.split('/');
+        return parts[parts.length - 1];
+    };
+
     return (
         <div>
             <h1>Character Details</h1>
@@ -56,6 +62,13 @@ const Character: React.FC = () => {
                         <li><strong>Gender:</strong> {character.gender}</li>
                         <li><strong>Origin:</strong> {character.origin.name}</li>
                         <li><strong>Location:</strong> {character.location.name}</li>
+                        <li><strong>Episodes:</strong>
+                            <ul>
+                                {character.episode.map((episode, index) => (
+                                    <li key={index}>Episode {extractEpisodeNumber(episode)}</li>
+                                ))}
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             ) : (

@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getCharacters } from 'rickmortyapi';
-import './Home.css';
 
 interface Location {
     name: string;
@@ -17,8 +16,23 @@ interface Character {
     gender: string;
     origin: Location;
     location: Location;
+    episode: string[];
     image: string;
 }
+
+interface APICharacterResponse {
+    id: number;
+    name: string;
+    status: string;
+    species: string;
+    type: string;
+    gender: string;
+    origin: Location;
+    location: Location;
+    episode: string[];
+    image: string;
+}
+
 
 const Home: React.FC = () => {
     const [characters, setCharacters] = useState<Character[]>([]);
@@ -26,15 +40,13 @@ const Home: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
-
     const loadCharacters = useCallback(async () => {
         try {
             setLoading(true);
             const response = await getCharacters({ page });
 
             if (response.status === 200 && response.data.results) {
-                const newCharacters = response.data.results.map((character: any): Character => ({
+                const newCharacters = response.data.results.map((character: APICharacterResponse): Character => ({
                     id: character.id,
                     name: character.name,
                     status: character.status,
@@ -43,6 +55,7 @@ const Home: React.FC = () => {
                     gender: character.gender,
                     origin: character.origin,
                     location: character.location,
+                    episode: character.episode,
                     image: character.image,
                 }));
                 setCharacters(prevCharacters => [...prevCharacters, ...newCharacters]);
@@ -62,38 +75,34 @@ const Home: React.FC = () => {
         loadCharacters();
     }, [loadCharacters]);
 
-    const handleScroll = () => {
-        if (containerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-            if (scrollTop + clientHeight >= scrollHeight - 100 && !loading) {
-                setPage(prevPage => prevPage + 1);
-            }
+    const handleScroll = useCallback(() => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !loading) {
+            setPage(prevPage => prevPage + 1);
         }
-    };
+    }, [loading]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
 
     return (
-        <div className="app-container">
-            <h1 className="title">Rick and Morty Characters</h1>
-            <div className="content-container">
+        <div>
+            <h1>Rick and Morty Characters</h1>
+            <div>
                 {error && <p>{error}</p>}
-                <div
-                    ref={containerRef}
-                    onScroll={handleScroll}
-                    className="scroll-container"
-                >
-                    <ul className="character-list">
-                        {characters.map((character) => (
-                            <li key={character.id} className="character-item">
-                                <Link to={`/character/${character.id}`}>
-                                    <button className="character-button">
-                                        {character.name}
-                                    </button>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                    {loading && <p>Loading more characters...</p>}
-                </div>
+                <ul>
+                    {characters.map((character) => (
+                        <li key={character.id}>
+                            <Link to={`/character/${character.id}`}>
+                                <button>{character.name}</button>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                {loading && <p>Loading more characters...</p>}
             </div>
         </div>
     );
