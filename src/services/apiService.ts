@@ -1,24 +1,7 @@
 import {getCharacter} from "rickmortyapi";
+import {CharacterType} from "../types.ts";
 
-export interface Location {
-    name: string;
-    url: string;
-}
-
-export interface Character {
-    id: number;
-    name: string;
-    status: string;
-    species: string;
-    type: string;
-    gender: string;
-    origin: Location;
-    location: Location;
-    episode: string[];
-    image: string;
-}
-
-export const fetchCharacterById = async (id: number): Promise<Character> => {
+export const fetchCharacterById = async (id: number): Promise<CharacterType> => {
     try {
         const response = await getCharacter(id);
         if (response.status === 200 && response.data) {
