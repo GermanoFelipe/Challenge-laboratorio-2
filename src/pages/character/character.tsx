@@ -48,22 +48,31 @@ const Character: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>Character Details</h1>
-            {error && <p>{error}</p>}
+        <div style={{ padding: '10px', fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: '0 auto' }}>
+            <h1 style={{ textAlign: 'center' }}>Character Details</h1>
+            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
             {character ? (
-                <div>
-                    <img src={character.image} alt={character.name} style={{ width: '200px', height: 'auto' }} />
-                    <ul>
-                        <li><strong>Name:</strong> {character.name}</li>
-                        <li><strong>Status:</strong> {character.status}</li>
-                        <li><strong>Species:</strong> {character.species}</li>
-                        <li><strong>Type:</strong> {character.type}</li>
-                        <li><strong>Gender:</strong> {character.gender}</li>
-                        <li><strong>Origin:</strong> {character.origin.name}</li>
-                        <li><strong>Location:</strong> {character.location.name}</li>
-                        <li><strong>Episodes:</strong>
-                            <ul>
+                <div style={{ textAlign: 'center' }}>
+                    <img
+                        src={character.image}
+                        alt={character.name}
+                        style={{
+                            width: '100%',
+                            maxWidth: '300px',
+                            height: 'auto',
+                            borderRadius: '10px',
+                            marginBottom: '20px'
+                        }}
+                    />
+                    <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
+                        <li><strong>Name and status: </strong>
+                            {character.name + ", " + character.status}</li>
+                        <li><strong>Species and type: </strong>
+                            {character.gender + " " +character.species + ", " + character.type}</li>
+                        <li><strong>Origin and location: </strong>
+                            {character.origin.name + ", " + character.location.name}</li>
+                        <li><strong>Episodes: </strong>
+                            <ul style={{ listStyle: 'none', paddingLeft: '15px' }}>
                                 {character.episode.map((episode, index) => (
                                     <li key={index}>Episode {extractEpisodeNumber(episode)}</li>
                                 ))}
@@ -72,7 +81,7 @@ const Character: React.FC = () => {
                     </ul>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p style={{ textAlign: 'center' }}>Loading...</p>
             )}
         </div>
     );

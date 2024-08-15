@@ -80,3 +80,11 @@ body {
 .title span {
     font-size: 0.5em;
 }
+
+.home-title {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 20px;
+    flex-direction: column;
+}
