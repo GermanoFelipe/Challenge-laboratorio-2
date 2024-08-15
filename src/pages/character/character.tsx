@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchCharacterById } from '../../services/apiService.ts';
 import { CharacterType } from '../../types.ts';
+import './character.css';
 
 const Character: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -31,40 +32,37 @@ const Character: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: '10px', fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: '0 auto' }}>
-            <h1 style={{ textAlign: 'center' }}>Character Details</h1>
-            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        <div>
+            <h1 className="sub-header">Character Details</h1>
+            {error && <p className="error">{error}</p>}
             {character ? (
-                <div style={{ textAlign: 'center' }}>
-                    <img
-                        src={character.image}
-                        alt={character.name}
-                        style={{
-                            width: '100%',
-                            maxWidth: '300px',
-                            height: 'auto',
-                            borderRadius: '10px',
-                            marginBottom: '20px'
-                        }}
-                    />
-                    <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
+                <div className="character-container">
+
+                    <img src={character.image} alt={character.name} className="character-image"/>
+
+                    <ul className="character-details">
+
                         <li><strong>Name and status: </strong>
                             {character.name + ", " + character.status}</li>
+
                         <li><strong>Species and type: </strong>
-                            {character.gender + " " +character.species + ", " + character.type}</li>
+                            {character.gender + " " + character.species + ", " + character.type}</li>
+
                         <li><strong>Origin and location: </strong>
                             {character.origin.name + ", " + character.location.name}</li>
+
                         <li><strong>Episodes: </strong>
-                            <ul style={{ listStyle: 'none', paddingLeft: '15px' }}>
+                            <ul className="episodes-list">
                                 {character.episode.map((episode, index) => (
                                     <li key={index}>Episode {extractEpisodeNumber(episode)}</li>
                                 ))}
                             </ul>
                         </li>
+
                     </ul>
                 </div>
             ) : (
-                <p style={{ textAlign: 'center' }}>Loading...</p>
+                <p className="loading-text">Loading...</p>
             )}
         </div>
     );
