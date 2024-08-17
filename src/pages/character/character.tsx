@@ -33,7 +33,7 @@ const Character: React.FC = () => {
 
     return (
         <div>
-            <h1 className="sub-header">Character Details</h1>
+            <h1 className="sub-header">CHARACTER DETAILS</h1>
             {error && <p className="error">{error}</p>}
             {character ? (
                 <div className="character-container">
