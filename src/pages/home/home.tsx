@@ -10,7 +10,8 @@ const Home: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [filteredCharacters, setFilteredCharacters] = useState<CharacterType[]>([]);
+    const [,setFilteredCharacters] = useState<CharacterType[]>([]);
+    const [filter, setFilter] = useState<string>('');
 
     const navigate = useNavigate();
 
@@ -73,6 +74,32 @@ const Home: React.FC = () => {
         }
     };
 
+    const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilter(event.target.value);
+    };
+
+    const getFilteredCharacters = () => {
+        let results = characters;
+
+        if (searchQuery) {
+            results = results.filter(character =>
+                character.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        if (filter) {
+            results = results.filter(character =>
+                character.status.toLowerCase() === filter.toLowerCase() ||
+                character.species.toLowerCase() === filter.toLowerCase() ||
+                character.gender.toLowerCase() === filter.toLowerCase() ||
+                character.origin.name.toLowerCase() === filter.toLowerCase() ||
+                character.location.name.toLowerCase() === filter.toLowerCase()
+            );
+        }
+
+        return results;
+    };
+
     return (
         <div>
             <h1 className="header">RICK AND MORTY CHARACTERS</h1>
@@ -92,10 +119,25 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className="filterBar">
+                <select onChange={handleFilterChange} value={filter}>
+                    <option value="">Filter by...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="alive">Alive</option>
+                    <option value="dead">Dead</option>
+                    <option value="earth (c-137)">Earth (C-137)</option>
+                    <option value="earth (replacement dimension)">Earth (Replacement Dimension)</option>
+                    <option value="unknown">Unknown</option>
+                    /*
+                    Add more options here
+                    */
+                </select>
+            </div>
             <div className="scrollable-dropdown">
                 {error && <p>{error}</p>}
                 <ul>
-                    {(filteredCharacters.length > 0 ? filteredCharacters : characters).map((character, index) => (
+                    {getFilteredCharacters().map((character, index) => (
                         <li key={`${character.id}-${index}`}>
                             <Link to={`/character/${character.id}`}>
                                 <button className="btn">{character.name}</button>
