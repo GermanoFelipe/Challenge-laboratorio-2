@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCharacters } from 'rickmortyapi';
-import './home.css'
-import {APICharacterResponse, CharacterType} from "../../types.ts";
-
+import './home.css';
+import { APICharacterResponse, CharacterType } from '../../types.ts';
 
 const Home: React.FC = () => {
     const [characters, setCharacters] = useState<CharacterType[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [filteredCharacters, setFilteredCharacters] = useState<CharacterType[]>([]);
+
+    const navigate = useNavigate();
 
     const loadCharacters = useCallback(async () => {
         try {
@@ -59,14 +62,41 @@ const Home: React.FC = () => {
         };
     }, [handleScroll]);
 
+    const handleSearch = () => {
+        const results = characters.filter(character =>
+            character.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredCharacters(results);
+
+        if (results.length === 1) {
+            navigate(`/character/${results[0].id}`);
+        }
+    };
+
     return (
         <div>
             <h1 className="header">RICK AND MORTY CHARACTERS</h1>
-            <div>
+            <div className="searchBar">
+                <div className="wrap">
+                    <div className="search">
+                        <input
+                            type="text"
+                            className="searchTerm"
+                            placeholder="Search for a character..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button className="searchButton" onClick={handleSearch}>
+                            <i className="fa fa-search">🔍</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="scrollable-dropdown">
                 {error && <p>{error}</p>}
                 <ul>
-                    {characters.map((character) => (
-                        <li key={character.id}>
+                    {(filteredCharacters.length > 0 ? filteredCharacters : characters).map((character, index) => (
+                        <li key={`${character.id}-${index}`}>
                             <Link to={`/character/${character.id}`}>
                                 <button className="btn">{character.name}</button>
                             </Link>

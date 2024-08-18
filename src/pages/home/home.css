@@ -34,7 +34,7 @@
     text-decoration: none;
     border: 2px solid #44281D;
     padding: 10px 20px;
-    font-size: 4vw; /* Usar vw para hacer el texto del botón responsivo */
+    font-size: 4vw;
     font-weight: bold;
     background: transparent;
     position: relative;
@@ -52,7 +52,7 @@
 @media (max-width: 600px) {
     .btn {
         font-size: 3vw;
-        padding: 8px 16px; /* Ajustar el padding en pantallas pequeñas */
+        padding: 8px 16px;
     }
 }
 
@@ -75,4 +75,57 @@
 
 .btn:hover::before {
     width: 160%;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.scrollable-dropdown {
+    height: auto;
+    max-height: 320px;
+    overflow-x: hidden;
+}
+
+.searchBar {
+    background: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.searchBar .search {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.searchBar .searchTerm {
+    width: 100%;
+    border: 3px solid #08BAE3;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+
+.searchBar .searchTerm:focus {
+    color: #08BAE3;
+}
+
+.searchBar .searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #08BAE3;
+    background: #08BAE3;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.searchBar .wrap {
+    width: 100%;
+    margin: 0 auto;
 }
