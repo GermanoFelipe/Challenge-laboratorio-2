@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/home.tsx';
-import Characterpage from './pages/character/character.tsx'; // Asegúrate de tener este componente creado
+import Characterpage from './pages/character/character.tsx';
 
 const App: React.FC = () => {
     return (
